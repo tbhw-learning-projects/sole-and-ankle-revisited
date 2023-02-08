@@ -1,10 +1,13 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 
-import { COLORS, WEIGHTS } from '../../constants';
-import Logo from '../Logo';
-import SuperHeader from '../SuperHeader';
-import MobileMenu from '../MobileMenu';
+import { COLORS, QUERIES, WEIGHTS } from "../../constants";
+import Logo from "../Logo";
+import SuperHeader from "../SuperHeader";
+import MobileMenu from "../MobileMenu";
+import Icon from "../Icon";
+import UnstyledButton from "../UnstyledButton";
+import VisuallyHidden from "../VisuallyHidden";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -21,14 +24,29 @@ const Header = () => {
         <Side>
           <Logo />
         </Side>
-        <Nav>
+        <DesktopNav>
           <NavLink href="/sale">Sale</NavLink>
           <NavLink href="/new">New&nbsp;Releases</NavLink>
           <NavLink href="/men">Men</NavLink>
           <NavLink href="/women">Women</NavLink>
           <NavLink href="/kids">Kids</NavLink>
           <NavLink href="/collections">Collections</NavLink>
-        </Nav>
+        </DesktopNav>
+        <NonDesktopActions>
+          <UnstyledButton>
+            <VisuallyHidden> cart</VisuallyHidden>
+            <Icon id="shopping-bag" />
+          </UnstyledButton>
+          <UnstyledButton>
+            <VisuallyHidden> Search</VisuallyHidden>
+            <Icon id="search" />
+          </UnstyledButton>
+          <UnstyledButton onClick={() => setShowMobileMenu((v) => !v)}>
+            <VisuallyHidden> Menu</VisuallyHidden>
+
+            <Icon id="menu" />
+          </UnstyledButton>
+        </NonDesktopActions>
         <Side />
       </MainHeader>
 
@@ -48,14 +66,24 @@ const MainHeader = styled.div`
   border-bottom: 1px solid ${COLORS.gray[300]};
 `;
 
-const Nav = styled.nav`
+const DesktopNav = styled.nav`
   display: flex;
   gap: 48px;
   margin: 0px 48px;
+
+  @media (${QUERIES.tabletAndDown}) {
+    display: none;
+  }
 `;
 
 const Side = styled.div`
   flex: 1;
+
+  @media (${QUERIES.tabletAndDown}) {
+    &:last-of-type {
+      flex: 0;
+    }
+  }
 `;
 
 const NavLink = styled.a`
@@ -67,6 +95,20 @@ const NavLink = styled.a`
 
   &:first-of-type {
     color: ${COLORS.secondary};
+  }
+`;
+
+const NonDesktopActions = styled.div`
+  display: none;
+
+  @media (${QUERIES.tabletAndDown}) {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  @media (${QUERIES.phoneAndDown}) {
+    gap: 24px;
   }
 `;
 
