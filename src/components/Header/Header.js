@@ -62,8 +62,9 @@ const MainHeader = styled.div`
   display: flex;
   align-items: baseline;
   padding: 18px 32px;
-  height: 72px;
+  min-height: 72px;
   border-bottom: 1px solid ${COLORS.gray[300]};
+  overflow-x: auto;
 
   @media (${QUERIES.phoneAndDown}) {
     padding: 18px 16px;
@@ -72,7 +73,7 @@ const MainHeader = styled.div`
 
 const DesktopNav = styled.nav`
   display: flex;
-  gap: 48px;
+  gap: clamp(1rem, 5.6vw - 2.25rem, 3rem);
   margin: 0px 48px;
 
   @media (${QUERIES.tabletAndDown}) {
