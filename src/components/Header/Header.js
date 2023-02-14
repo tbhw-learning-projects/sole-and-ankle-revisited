@@ -25,12 +25,24 @@ const Header = () => {
           <Logo />
         </Side>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <DesktopNavLinkWrapper label="Sale">
+            <NavLink href="/sale">Sale</NavLink>
+          </DesktopNavLinkWrapper>
+          <DesktopNavLinkWrapper label="New Releases">
+            <NavLink href="/new">New&nbsp;Releases</NavLink>
+          </DesktopNavLinkWrapper>
+          <DesktopNavLinkWrapper label="Men">
+            <NavLink href="/men">Men</NavLink>
+          </DesktopNavLinkWrapper>
+          <DesktopNavLinkWrapper label="Women">
+            <NavLink href="/women">Women</NavLink>
+          </DesktopNavLinkWrapper>
+          <DesktopNavLinkWrapper label="Kids">
+            <NavLink href="/kids">Kids</NavLink>
+          </DesktopNavLinkWrapper>
+          <DesktopNavLinkWrapper label="Collections">
+            <NavLink href="/collections">Collections</NavLink>
+          </DesktopNavLinkWrapper>
         </DesktopNav>
         <NonDesktopActions>
           <UnstyledButton>
@@ -92,14 +104,52 @@ const Side = styled.div`
 `;
 
 const NavLink = styled.a`
+  display: inline-block;
+  position: relative;
   font-size: 1.125rem;
   text-transform: uppercase;
   text-decoration: none;
-  color: ${COLORS.gray[900]};
   font-weight: ${WEIGHTS.medium};
+  color: currentColor;
+`;
+
+const DesktopNavLinkWrapper = styled.span`
+  display: block;
+  color: ${COLORS.gray[900]};
+  perspective: 1000px;
+  transform-style: preserve-3d;
 
   &:first-of-type {
     color: ${COLORS.secondary};
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    & > ${NavLink} {
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      transition: transform 300ms, background-color 300ms ease-in;
+    }
+
+    &:hover > ${NavLink} {
+      transform: rotateX(90deg);
+    }
+
+    & > ${NavLink}:after {
+      display: inline-block;
+      content: "${({ label }) => label}";
+      position: absolute;
+      top: 0.75em;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-weight: ${WEIGHTS.bold};
+      transform: rotateX(-90deg) translateY(1em);
+      background-color: ${COLORS.gray[300]};
+    }
+
+    &:hover > ${NavLink}:after {
+      transform: rotateX(-91deg) translateY(50%);
+      background-color: white;
+    }
   }
 `;
 
