@@ -8,88 +8,120 @@ import { COLORS, QUERIES } from "../../constants";
 import UnstyledButton from "../UnstyledButton";
 import Icon from "../Icon";
 import VisuallyHidden from "../VisuallyHidden";
+import { keyframes } from "styled-components";
 
 const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
     <Overlay isOpen={isOpen} onDismiss={onDismiss}>
-      <Content>
-        <Spacer>
-          <CloseButton onClick={onDismiss}>
-            <Icon id="close" />
-            <VisuallyHidden>Dismiss menu</VisuallyHidden>
-          </CloseButton>
-        </Spacer>
-        <Nav>
-          <ul>
-            <li>
-              <a href="/sale">Sale</a>
-            </li>
-            <li>
-              <a href="/new">New&nbsp;Releases</a>
-            </li>
-            <li>
-              <a href="/men">Men</a>
-            </li>
-            <li>
-              <a href="/women">Women</a>
-            </li>
-            <li>
-              <a href="/kids">Kids</a>
-            </li>
-            <li>
-              <a href="/collections">Collections</a>
-            </li>
-          </ul>
-        </Nav>
+      <Background />
+      <Content aria-label="main menu">
+        <ContentWrapper>
+          <Spacer>
+            <CloseButton onClick={onDismiss}>
+              <Icon id="close" />
+              <VisuallyHidden>Dismiss menu</VisuallyHidden>
+            </CloseButton>
+          </Spacer>
+          <Nav>
+            <ul>
+              <li>
+                <a href="/sale">Sale</a>
+              </li>
+              <li>
+                <a href="/new">New&nbsp;Releases</a>
+              </li>
+              <li>
+                <a href="/men">Men</a>
+              </li>
+              <li>
+                <a href="/women">Women</a>
+              </li>
+              <li>
+                <a href="/kids">Kids</a>
+              </li>
+              <li>
+                <a href="/collections">Collections</a>
+              </li>
+            </ul>
+          </Nav>
 
-        <Footer>
-          <ul>
-            <li>
-              <a href="/terms">Terms and Conditions</a>
-            </li>
-            <li>
-              <a href="/privacy">Privacy Policy</a>
-            </li>
-            <li>
-              <a href="/contact">Contact Us</a>
-            </li>
-          </ul>
-        </Footer>
+          <Footer>
+            <ul>
+              <li>
+                <a href="/terms">Terms and Conditions</a>
+              </li>
+              <li>
+                <a href="/privacy">Privacy Policy</a>
+              </li>
+              <li>
+                <a href="/contact">Contact Us</a>
+              </li>
+            </ul>
+          </Footer>
+        </ContentWrapper>
       </Content>
     </Overlay>
   );
 };
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+`;
+
 const Overlay = styled(DialogOverlay)`
-  background-color: hsla(220, 5%, 40%, 0.8);
-  position: absolute;
+  background-color: transparent;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
+`;
 
-  animation: fadeIn 1000ms ease-in-out;
-  animation-direction: ${({ isOpen }) => (isOpen ? "normal" : "reverse")};
+const Background = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: hsla(220, 5%, 40%, 0.8);
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
+  animation: ${fadeIn} 300ms both;
 `;
 
 const Content = styled(DialogContent)`
+  position: relative;
   background: white;
-  min-width: 300px;
+  width: 300px;
   height: 100%;
   padding: 32px;
+
+  animation: ${slideIn} 500ms both;
+  animation-delay: 200ms;
+`;
+
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+
+  animation: ${fadeIn} 500ms both;
+  animation-delay: 400ms;
 `;
 
 const CloseButton = styled(UnstyledButton)`
